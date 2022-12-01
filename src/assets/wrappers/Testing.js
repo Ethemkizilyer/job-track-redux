@@ -1,5 +1,4 @@
-import styled from 'styled-components'
-
+import styled from "styled-components";
 const Wrapper = styled.main`
   nav {
     width: var(--fluid-width);
@@ -13,10 +12,11 @@ const Wrapper = styled.main`
     min-height: calc(100vh - var(--nav-height));
     display: grid;
     align-items: center;
-    margin-top: -2rem;
+    margin-top: -3rem;
   }
   h1 {
     font-weight: 700;
+
     span {
       color: var(--primary-500);
     }
@@ -33,8 +33,8 @@ const Wrapper = styled.main`
       column-gap: 3rem;
     }
     .main-img {
-      display: block;
     }
   }
-`
-export default Wrapper
+`;
+
+export default Wrapper;
