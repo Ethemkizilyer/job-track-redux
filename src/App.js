@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import {Landing,Error,Dashboard,Register} from "./pages/index";
-
+import "react-toastify/dist/ReactToastify.css"
 
 
 
@@ -14,7 +15,7 @@ function App() {
 <Route path="*" element={<Error/>}/>
 
    </Routes>
-   
+   <ToastContainer position="top-center"/>
    </BrowserRouter>
   );
 }

@@ -77,6 +77,11 @@ body {
   color: var(--textColor);
 }
 
+
+.Toastify__toast{
+  text-transform: capitalize;
+}
+
 p {
   margin-bottom: 1.5rem;
   max-width: 40em;
