@@ -21,7 +21,7 @@ const Register = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
+    // console.log(name, value);
     // values[name] = value;
   setValues({ ...values,[name]:value})
     
@@ -29,7 +29,7 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(values);
+    // console.log(values);
     const {name,email,password,isMember}= values
     // setValues({ name: "", email: "", password: "", isMember: true });
     // toast.error("Naptın!!!")
@@ -55,14 +55,16 @@ const toggleMember =()=>{
     <Wrapper className="full-page">
       <form className="form" onSubmit={onSubmit}>
         <Logo />
-        <h3>{values.isMember? "Login" : "Register"}</h3>
+        <h3>{values.isMember ? "Login" : "Register"}</h3>
         {/* name */}
-        {!values.isMember && (<FormRow
-          type="text"
-          name="name"
-          values={values.name}
-          handleChange={handleChange}
-        />) }
+        {!values.isMember && (
+          <FormRow
+            type="text"
+            name="name"
+            values={values.name}
+            handleChange={handleChange}
+          />
+        )}
         {/* email */}
         <FormRow
           type="email"
@@ -77,12 +79,14 @@ const toggleMember =()=>{
           values={values.password}
           handleChange={handleChange}
         />
-        <button type="submit" className="btn btn-block">
-          Submit
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
+          {isLoading ? "Loading..." : "Submit"}
         </button>
         <p>
           {values.isMember ? "Not a member yet?" : "Already a member?"}
-          <button type="button" className="member-btn" onClick={toggleMember}>{values.isMember ? "Register" :"Login"}</button>
+          <button type="button" className="member-btn" onClick={toggleMember}>
+            {values.isMember ? "Register" : "Login"}
+          </button>
         </p>
       </form>
     </Wrapper>
