@@ -79,14 +79,14 @@ const toggleMember =()=>{
         <FormRow
           type="email"
           name="email"
-          values={values.email}
+          value={values.email}
           handleChange={handleChange}
         />
         {/* password */}
         <FormRow
           type="password"
           name="password"
-          values={values.password}
+          value={values.password}
           handleChange={handleChange}
         />
         <button type="submit" className="btn btn-block" disabled={isLoading}>
