@@ -33,7 +33,7 @@ export const Navbar = () => {
           >
             <FaUserCircle /> {user?.name} <FaCaretDown />
           </button>
-          <div className={showLogout ? "dropdown show-dropdown" : "dropwdown"}>
+          <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
             <button
               className="dropdown-btn"
               type="button"

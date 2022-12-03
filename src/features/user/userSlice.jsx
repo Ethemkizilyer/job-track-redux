@@ -46,9 +46,6 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers:{
-    toggSideBar:(state)=>{
-        state.isSidebarOpen=!state.isSidebarOpen
-    },
     logoutUser: (state) => {
       state.user = null;
       state.isSidebarOpen = false;
