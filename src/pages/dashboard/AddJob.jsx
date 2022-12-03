@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import { FormRow } from "../../components";
 import FormRowSelect from "../../components/FormRowSelect";
-import { clearValues, createJob, handleChange } from "../../features/job/jobSlice";
+import { clearValues, createJob, editJob, handleChange } from "../../features/job/jobSlice";
 
 const AddJob = () => {
   const {
@@ -32,6 +32,21 @@ const AddJob = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(createJob({position,company,jobLocation,jobType,status}))
+
+    if(isEditing){
+      dispatch(
+        editJob({
+          jobId: editJobId,
+          job: {
+            position,
+            company,
+            jobLocation,
+            jobType,
+            status,
+          },
+        })
+      );
+    }
   };
 
   const handleJobInput = (e) => {
