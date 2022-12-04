@@ -10,7 +10,10 @@ const SearchContainer = () => {
   const { jobTypeOptions, statusOptions } = useSelector((store) => store.job);
   const dispatch = useDispatch();
     const handleSearch = (e) => {
-        dispatch(handleChange({name:e.target.name,value:e.target.value}))
+          if (isLoading) {
+          dispatch(
+            handleChange({ name: e.target.name, value: e.target.value }))}
+          
     };
     const handleSubmit = (e) => {
       e.preventDefault();
