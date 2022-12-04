@@ -6,7 +6,7 @@ import Job from './Job';
 import Loading from './Loading';
 
 const JobsContainer = () => {
-    const {jobs,isLoading}=useSelector((store)=>store.allJobs)
+    const {jobs,isLoading,page,totalJobs,numOfPages}=useSelector((store)=>store.allJobs)
     const dispatch=useDispatch()
 console.log(jobs);
     useEffect(() => {
