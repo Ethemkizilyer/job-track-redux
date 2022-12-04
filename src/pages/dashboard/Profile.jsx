@@ -8,12 +8,12 @@ import { updateUser } from "../../features/user/userSlice";
 const Profile = () => {
 const {isLoading,user} = useSelector((store)=>store.user)
 const dispatch= useDispatch()
-
+console.log(user)
 
 const [userData,setUserData]= useState({
   name:user?.name || "",
   email:user?.email || "",
-  lastName:user?.lastNmae || "",
+  lastName:user?.lastName || "",
   location:user?.location || "",
 })
 
@@ -45,7 +45,7 @@ const [userData,setUserData]= useState({
             type="text"
             name="lastName"
             labelText="last name"
-            value={userData.lastName}
+            value={userData?.lastName}
             handleChange={handleChange}
           />
           <FormRow

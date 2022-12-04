@@ -31,7 +31,7 @@ const AddJob = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createJob({position,company,jobLocation,jobType,status}))
+    // dispatch(createJob({position,company,jobLocation,jobType,status}))
 
     if(isEditing){
       dispatch(
@@ -46,6 +46,8 @@ const AddJob = () => {
           },
         })
       );
+    }else{
+      dispatch(createJob({ position, company, jobLocation, jobType, status }));
     }
   };
 
