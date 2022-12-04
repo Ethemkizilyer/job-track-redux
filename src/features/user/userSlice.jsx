@@ -6,7 +6,7 @@ import {
   addUserToLocalStorage,
   removeUserFromLocalStorage,
 } from "../../utils/localstorage";
-import { loginUserThunk, registerUserThunk, updateUserThunk } from "./userThunk";
+import { clearStoreThunk, loginUserThunk, registerUserThunk, updateUserThunk } from "./userThunk";
 
 
 
@@ -40,18 +40,19 @@ export const updateUser = createAsyncThunk(
     // console.log(`Login User :  ${JSON.stringify(user)}`);
   }
 );
+export const clearStore = createAsyncThunk("user/clearStore", clearStoreThunk);
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logoutUser: (state,{payload}) => {
+    logoutUser: (state, { payload }) => {
       state.user = null;
       state.isSidebarOpen = false;
-      
+
       removeUserFromLocalStorage();
-      if(payload){
-        toast.success(payload)
+      if (payload) {
+        toast.success(payload);
       }
     },
     toggleSidebar: (state) => {
@@ -102,6 +103,9 @@ const userSlice = createSlice({
   //   state.isLoading = false;
   //   toast.error(payload);
   // },
+  // [clearStore.rejected]: () => {
+  //   toast.error("There was an error");
+  // },
   //   }
 
   //! BUILDER CALLBACK NOTATION
@@ -149,8 +153,12 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, { payload }) => {
         state.isLoading = false;
         toast.error(payload);
-      });
-  },
+      })
+      .addCase(clearStore.rejected,()=>{
+        toast.error("There was an error")
+        console.log("clearstore.rejected")
+      })
+  }
 });
 
 export default userSlice.reducer;

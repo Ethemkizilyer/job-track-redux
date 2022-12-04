@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import customFetch from "../../utils/axios";
+import { getAllJobsThunk, showStatsThunk } from "./allJobsThunk";
 
 const initialFiltersState = {
   search: "",
@@ -23,35 +24,13 @@ const initialState = {
 
 export const getAllJobs = createAsyncThunk(
   "allJobs/getJobs",
-  async (_, thunkAPI) => {
-    const { page, search, searchStatus, searchType, sort } =
-      thunkAPI.getState().allJobs;
-
-    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}&page=${page}`;
-    if (search) {
-      url = url + `&search=${search}`;
-    }
-    try {
-      const resp = await customFetch.get(url);
-      return resp.data;
-    } catch (error) {
-      console.log("ethem");
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
-  }
+  getAllJobsThunk
 );
 
 export const showStats = createAsyncThunk(
   'allJobs/showStats',
-  async (_, thunkAPI) => {
-    try {
-      const resp = await customFetch.get('/jobs/stats');
-      console.log(resp.data);
-      return resp.data;
-    } catch(error) {
-      return thunkAPI.rejectWithValue(error.response.data.msg);
-    }
-}
+ showStatsThunk
+ 
 )
 
 const allJobsSlice = createSlice({
@@ -64,49 +43,91 @@ const allJobsSlice = createSlice({
     hideLoading: (state) => {
       state.isLoading = false;
     },
-  },reducers:{
-    handleChange:(state,{payload:{name,value}})=>{
-        state.page=1
-        state[name]=value;
+  },
+  reducers: {
+    handleChange: (state, { payload: { name, value } }) => {
+      state.page = 1;
+      state[name] = value;
     },
-    clearFilters:(state)=>{
-        return {...state,...initialFiltersState}
+    clearFilters: (state) => {
+      return { ...state, ...initialFiltersState };
     },
-    changePage:(state,{payload})=>{
-        state.page=payload
+    changePage: (state, { payload }) => {
+      state.page = payload;
+    },
+    clearAllJobsState: () => {
+      console.log("clearAllJobsState");
+      return initialState;
     },
   },
-  extraReducers: {
-    [getAllJobs.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getAllJobs.fulfilled]: (state, { payload }) => {
-      state.isLoading = false;
-      state.jobs = payload.jobs;
+  //!Builder Callback Notation
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllJobs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllJobs.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.jobs = payload.jobs;
         state.numOfPages = payload.numOfPages;
         state.totalJobs = payload.totalJobs;
-    },
-    [getAllJobs.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      toast.error(payload);
-    },
-    [showStats.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [showStats.fulfilled]: (state, { payload }) => {
-      state.isLoading = false;
-      state.stats = payload.defaultStats;
-      state.monthlyApplications = payload.monthlyApplications;
-    },
-    [showStats.rejected]: (state, { payload }) => {
-      state.isLoading = false;
-      toast.error(payload);
-      console.log("ethem")
-    },
+      })
+      .addCase(getAllJobs.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
+      })
+      .addCase(showStats.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(showStats.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.stats = payload.defaultStats;
+        state.monthlyApplications = payload.monthlyApplications;
+      })
+      .addCase(showStats.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        toast.error(payload);
+      });
   },
+
+  //! Buraso Object Notation Kısmı hata veriyor Günceli ise Builder Callback Notation ile yazılmış yukarıda.
+  // extraReducers: {
+  //   [getAllJobs.pending]: (state) => {
+  //     state.isLoading = true;
+  //   },
+  //   [getAllJobs.fulfilled]: (state, { payload }) => {
+  //     state.isLoading = false;
+  //     state.jobs = payload.jobs;
+  //     state.numOfPages = payload.numOfPages;
+  //     state.totalJobs = payload.totalJobs;
+  //   },
+  //   [getAllJobs.rejected]: (state, { payload }) => {
+  //     state.isLoading = false;
+  //     toast.error(payload);
+  //   },
+  //   [showStats.pending]: (state) => {
+  //     state.isLoading = true;
+  //   },
+  //   [showStats.fulfilled]: (state, { payload }) => {
+  //     state.isLoading = false;
+  //     state.stats = payload.defaultStats;
+  //     state.monthlyApplications = payload.monthlyApplications;
+  //   },
+  //   [showStats.rejected]: (state, { payload }) => {
+  //     state.isLoading = false;
+  //     toast.error(payload);
+  //     console.log("ethem");
+  //   },
+  // },
 });
 
 export default allJobsSlice.reducer;
 
-export const { showLoading, hideLoading, handleChange, clearFilters,changePage } =
-  allJobsSlice.actions;
+export const {
+  showLoading,
+  hideLoading,
+  handleChange,
+  clearFilters,
+  changePage,
+  clearAllJobsState,
+} = allJobsSlice.actions;
