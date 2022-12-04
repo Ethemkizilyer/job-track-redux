@@ -43,8 +43,6 @@ const allJobsSlice = createSlice({
     hideLoading: (state) => {
       state.isLoading = false;
     },
-  },
-  reducers: {
     handleChange: (state, { payload: { name, value } }) => {
       state.page = 1;
       state[name] = value;
@@ -55,10 +53,11 @@ const allJobsSlice = createSlice({
     changePage: (state, { payload }) => {
       state.page = payload;
     },
-    clearAllJobsState: () => {
-      console.log("clearAllJobsState");
-      return initialState;
-    },
+    clearAllJobsState: (state) => initialState,
+    // clearAllJobsState: () => {
+    //   console.log("clearAllJobsState");
+    //   return initialState;
+    // },
   },
   //!Builder Callback Notation
   extraReducers: (builder) => {
@@ -104,6 +103,7 @@ const allJobsSlice = createSlice({
   //   [getAllJobs.rejected]: (state, { payload }) => {
   //     state.isLoading = false;
   //     toast.error(payload);
+  //     console.log("ethem");
   //   },
   //   [showStats.pending]: (state) => {
   //     state.isLoading = true;
@@ -121,7 +121,7 @@ const allJobsSlice = createSlice({
   // },
 });
 
-export default allJobsSlice.reducer;
+
 
 export const {
   showLoading,
@@ -131,3 +131,4 @@ export const {
   changePage,
   clearAllJobsState,
 } = allJobsSlice.actions;
+export default allJobsSlice.reducer;
